@@ -25,12 +25,12 @@ import LinearGradient from "react-native-linear-gradient";
 const windowWidth = Dimensions.get("window").width;
 
 const VOICEOVER_URL =
-  "https://storage.googleapis.com/sleep-voiceover-audio/voiceover/test_audio.mp3";
+  "https://storage.googleapis.com/sleep-voiceover-audio/voiceover/voiceover.mp3";
 
 const audioUri = require("./assets/vinyl_looped.mp3");
 
 const MainButton = ({ onPress, label, animateButton }) => {
-  const mainButtonOpacity = useRef(new Animated.Value(0.5)).current;
+  const mainButtonOpacity = useRef(new Animated.Value(0.4)).current;
 
   useEffect(() => {
     if (animateButton) {
@@ -42,7 +42,7 @@ const MainButton = ({ onPress, label, animateButton }) => {
             useNativeDriver: true,
           }),
           Animated.timing(mainButtonOpacity, {
-            toValue: 0.5,
+            toValue: 0.4,
             duration: 2000,
             useNativeDriver: true,
           }),
