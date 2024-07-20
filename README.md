@@ -1,4 +1,4 @@
-First run expo prebuild -p ios
+First run n
 https://docs.expo.dev/guides/local-app-development/
 
 React native sound
@@ -7,3 +7,4 @@ https://docs.expo.dev/versions/latest/sdk/av/ just fade it at 1 second and start
 
 // sleep app
 https://morgan.cugerone.com/blog/how-to-upload-a-buffer-as-a-file-to-a-google-cloud-storage-bucket/
+`npx expo run:ios`

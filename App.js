@@ -20,6 +20,8 @@ import { useEffect, useRef, useState } from "react";
 import { PaperProvider } from "react-native-paper";
 import { Button } from "react-native-paper";
 import { Dimensions } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+
 const windowWidth = Dimensions.get("window").width;
 
 const VOICEOVER_URL =
@@ -157,10 +159,14 @@ export default function App() {
       <View style={{ flex: 1 }}>
         <StatusBar hidden />
         <ImageBackground
-          source={require("./assets/backgrounds/bg_1_darkened.png")} // Replace with your image URL
+          source={require("./assets/backgrounds/bg_1.png")} // Replace with your image URL
           resizeMode="cover" // This prop ensures the image covers the whole area
           style={styles.backgroundImage}
         >
+          <LinearGradient
+            style={{ height: "100%", width: "100%" }}
+            colors={["#00000000", "#000000"]}
+          />
           <SafeAreaView style={styles.container}>
             <View style={styles.mainButtonContainer}>
               {!isPlayingSleep && (
