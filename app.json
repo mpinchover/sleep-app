@@ -25,8 +25,17 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font",
-      "expo-asset"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_900Black.ttf",
+
+            "node_modules/@expo-google-fonts/inter/Inter_200ExtraLight.ttf"
+          ]
+        }
+      ]
     ]
   }
 }

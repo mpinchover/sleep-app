@@ -1,7 +1,18 @@
 import { View, StyleSheet } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 import { Button, Divider } from "react-native-paper";
+import {
+  useFonts,
+  Inter_900Black,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+} from "@expo-google-fonts/inter";
 const Signup = ({ navigation }) => {
+  let [fontsLoaded] = useFonts({
+    Inter_200ExtraLight,
+    Inter_900Black,
+  });
+
   return (
     <View style={styles.container}>
       <Text variant="displayLarge" style={styles.title}>
@@ -67,6 +78,7 @@ const styles = StyleSheet.create({
     color: "#fffbff",
     position: "absolute",
     top: "20%",
+    fontFamily: "Inter_200ExtraLight",
   },
   textInput: {
     width: "100%",
