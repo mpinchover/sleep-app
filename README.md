@@ -11,3 +11,6 @@ https://morgan.cugerone.com/blog/how-to-upload-a-buffer-as-a-file-to-a-google-cl
 
 Auth
 https://javascript.plainenglish.io/how-to-add-google-sign-in-expo-react-native-guide-2024-f9737d1f2a46
+
+Common debugging
+`rm -rf node_modules && expo install`

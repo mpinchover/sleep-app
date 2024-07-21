@@ -27,13 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.mattathias.i.pinchover.sleepapp</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>exp+sleep-app</string>
+          <string>com.mattathias.i.pinchover.sleep-app</string>
         </array>
       </dict>
     </array>
