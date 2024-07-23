@@ -12,10 +12,45 @@ import {
   Inter_100Thin,
   Inter_200ExtraLight,
 } from "@expo-google-fonts/inter";
+import supabase from "../auth/supabase";
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import { useState } from "react";
 const Login = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   let [fontsLoaded] = useFonts({
     Inter_200ExtraLight,
   });
+
+  const loginUser = async () => {
+    console.log("LOGIN UP USER");
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: "example@email.com",
+        password: "example-password",
+      });
+      if (error) {
+        throw error;
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <ImageBackground
+        source={require("../../assets/backgrounds/bg_4_darkened.png")} // Replace with your image URL
+        resizeMode="cover" // This prop ensures the image covers the whole area
+        style={styles.backgroundImage}
+      >
+        <ActivityIndicator size="large" animating={true} color={"#fffbff"} />
+      </ImageBackground>
+    );
+  }
 
   return (
     <ImageBackground
@@ -43,7 +78,11 @@ const Login = ({ navigation }) => {
         />
 
         <Divider style={{ margin: 8 }} />
-        <RNPButton style={{ width: "100%", margin: 0 }} mode="contained">
+        <RNPButton
+          onPress={loginUser}
+          style={{ width: "100%", margin: 0 }}
+          mode="contained"
+        >
           Log in
         </RNPButton>
 

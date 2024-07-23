@@ -5,20 +5,22 @@ import HomeScreen from "./src/screens/home";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { View } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import Login from "./src/screens/login";
 import Signup from "./src/screens/signup";
-import { useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { AuthContext, Authorization } from "./src/context/context";
+import supabase from "./src/auth/supabase";
+import Settings from "./src/screens/settings";
 const Stack = createNativeStackNavigator();
 
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const MainApp = () => {
+  const { userSession, isLoading } = useContext(Authorization);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {isLoggedIn && (
+        {userSession && (
           <>
             <Stack.Screen
               options={({}) => {
@@ -29,10 +31,43 @@ const App = () => {
               name="Home"
               component={HomeScreen}
             />
+
+            <Stack.Screen
+              options={({ navigation }) => {
+                return {
+                  // headerShown: false,
+
+                  headerTitleStyle: {
+                    color: "#fffbff",
+                  },
+                  // headerStyle: {
+                  //   backgroundColor: "black",
+                  // },
+                  headerTransparent: true,
+
+                  headerLeft: () => {
+                    return (
+                      <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Text style={{ color: "#fffbff" }}>Cancel</Text>
+                      </TouchableOpacity>
+                    );
+                  },
+                  headerRight: () => {
+                    return (
+                      <TouchableOpacity>
+                        <Text style={{ color: "#fffbff" }}>Save</Text>
+                      </TouchableOpacity>
+                    );
+                  },
+                };
+              }}
+              name="Settings"
+              component={Settings}
+            />
           </>
         )}
 
-        {!isLoggedIn && (
+        {!userSession && (
           <>
             <Stack.Screen
               options={({}) => {
@@ -56,6 +91,14 @@ const App = () => {
         )}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthContext>
+      <MainApp />
+    </AuthContext>
   );
 };
 

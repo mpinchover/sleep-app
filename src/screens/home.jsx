@@ -23,6 +23,7 @@ import { Dimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Ionicons } from "@expo/vector-icons";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -31,6 +32,17 @@ const VOICEOVER_URL =
 
 const audioUri = require("../../assets/vinyl_looped.mp3");
 
+const SettingsButton = ({ hidden, onPress }) => {
+  const style = {
+    ...styles.settingsBtn,
+    opacity: hidden ? 0 : 1,
+  };
+  return (
+    <TouchableOpacity onPress={onPress} style={style}>
+      <Ionicons name="options" size={24} color="#fffbff" />
+    </TouchableOpacity>
+  );
+};
 const MainButton = ({ onPress, label, animateButton }) => {
   const mainButtonOpacity = useRef(new Animated.Value(0.4)).current;
 
@@ -68,7 +80,7 @@ const MainButton = ({ onPress, label, animateButton }) => {
   );
 };
 
-export default function App() {
+export default function App({ navigation }) {
   const [isPlayingSleep, setIsPlayingSleep] = useState(false);
   const [voiceOverAudio, setVoiceOverAudio] = useState();
   const [voiceOverUrl, setVoiceOverUrl] = useState();
@@ -156,6 +168,10 @@ export default function App() {
     voiceOverAudio.stopAsync();
   };
 
+  onPressSettings = () => {
+    navigation.navigate("Settings");
+  };
+
   return (
     <PaperProvider>
       <View style={{ flex: 1 }}>
@@ -171,6 +187,7 @@ export default function App() {
           />
           <SafeAreaView style={styles.container}>
             <View style={styles.mainButtonContainer}>
+              <SettingsButton hidden={true} />
               {!isPlayingSleep && (
                 <MainButton label="Start" onPress={handleStart} />
               )}
@@ -181,6 +198,7 @@ export default function App() {
                   onPress={handleStop}
                 />
               )}
+              <SettingsButton onPress={onPressSettings} />
             </View>
           </SafeAreaView>
         </ImageBackground>
@@ -212,6 +230,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  settingsBtn: {
+    width: 100,
+    height: 100,
+    // borderWidth: 1,
+    // borderColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   mainButtonText: {
     color: "purple",
     fontSize: 16,
@@ -219,5 +245,8 @@ const styles = StyleSheet.create({
   mainButtonContainer: {
     position: "absolute",
     bottom: 100,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
   },
 });

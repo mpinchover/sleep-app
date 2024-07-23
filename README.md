@@ -14,3 +14,10 @@ https://javascript.plainenglish.io/how-to-add-google-sign-in-expo-react-native-g
 
 Common debugging
 `rm -rf node_modules && expo install`
+
+oauth
+https://supabase.com/docs/guides/auth
+
+auth persist session
+
+https://github.com/orgs/supabase/discussions/20155

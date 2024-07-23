@@ -12,13 +12,9 @@ import {
   Inter_100Thin,
   Inter_200ExtraLight,
 } from "@expo-google-fonts/inter";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "../auth/supabase";
 import { useState } from "react";
-const supabaseUrl = "https://wdylwouqozgzhdnqkrnx.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
-// const supabase = createClient(
-//   supabaseUrl,
-// );
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
 
 const Signup = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,10 +26,13 @@ const Signup = ({ navigation }) => {
   const signUpUser = async () => {
     setIsLoading(true);
     try {
-      // const { data, error } = await supabase.auth.signUp({
-      //   email: "example@email.com",
-      //   password: "example-password",
-      // });
+      const { data, error } = await supabase.auth.signUp({
+        email: "example@email.com",
+        password: "example-password",
+      });
+      if (error) {
+        throw error;
+      }
     } catch (e) {
       console.log(e);
     } finally {
@@ -41,6 +40,17 @@ const Signup = ({ navigation }) => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <ImageBackground
+        source={require("../../assets/backgrounds/bg_5_darkened.png")} // Replace with your image URL
+        resizeMode="cover" // This prop ensures the image covers the whole area
+        style={styles.backgroundImage}
+      >
+        <ActivityIndicator size="large" animating={true} color={"#fffbff"} />
+      </ImageBackground>
+    );
+  }
   return (
     <ImageBackground
       source={require("../../assets/backgrounds/bg_5_darkened.png")} // Replace with your image URL
@@ -77,7 +87,7 @@ const Signup = ({ navigation }) => {
         <RNPButton
           style={{ width: "100%", margin: 0, fontSize: 12 }}
           mode="contained"
-          onPress={() => console.log("Pressed")}
+          onPress={signUpUser}
         >
           Sign up
         </RNPButton>
