@@ -6,17 +6,42 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { Divider, Button as RNPButton, TextInput } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Divider,
+  Button as RNPButton,
+  TextInput,
+} from "react-native-paper";
 import supabase from "../auth/supabase";
+import { Authorization } from "../context/context";
 
 const Settings = () => {
   const [email, setEmail] = useState("");
-  return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+  const { userSession, isLoading, setUserSettings } = useContext(Authorization);
+
+  useEffect(() => {
+    return () => {
+      setUserSettings();
+    };
+  }, []);
+
+  if (isLoading) {
+    return (
       <ImageBackground
-        source={require("../../assets/backgrounds/bg_6_darkened.png")} // Replace with your image URL
+        source={require("../../assets/backgrounds/bg_5.png")} // Replace with your image URL
+        resizeMode="cover" // This prop ensures the image covers the whole area
+        style={styles.backgroundImage}
+      >
+        <ActivityIndicator size="large" animating={true} color={"#fffbff"} />
+      </ImageBackground>
+    );
+  }
+  return (
+    <View style={{ flex: 1, backgroundColor: "black" }}>
+      <ImageBackground
+        source={require("../../assets/backgrounds/bg_6.png")} // Replace with your image URL
         resizeMode="cover" // This prop ensures the image covers the whole area
         style={styles.backgroundImage}
       >
@@ -37,6 +62,13 @@ const Settings = () => {
                 width: "100%",
               }}
             >
+              <TextInput
+                label="Name"
+                style={styles.textInput}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+              <View style={{ margin: 4 }}></View>
               <TextInput
                 label="Email"
                 style={styles.textInput}
@@ -98,6 +130,9 @@ const styles = StyleSheet.create({
   backgroundImage: {
     width: "100%", // Full width
     height: "100%", // Full height
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
   },
   textInput: {
     width: "100%",

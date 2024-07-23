@@ -15,7 +15,7 @@ import Settings from "./src/screens/settings";
 const Stack = createNativeStackNavigator();
 
 const MainApp = () => {
-  const { userSession, isLoading } = useContext(Authorization);
+  const { userSession, isLoading, updateSettings } = useContext(Authorization);
 
   return (
     <NavigationContainer>
@@ -55,7 +55,19 @@ const MainApp = () => {
                   headerRight: () => {
                     return (
                       <TouchableOpacity>
-                        <Text style={{ color: "#fffbff" }}>Save</Text>
+                        <Text
+                          onPress={async () => {
+                            try {
+                              await updateSettings();
+                              navigation.goBack();
+                            } catch (e) {
+                              console.log(e);
+                            }
+                          }}
+                          style={{ color: "#fffbff" }}
+                        >
+                          Save
+                        </Text>
                       </TouchableOpacity>
                     );
                   },

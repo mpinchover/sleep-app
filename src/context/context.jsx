@@ -15,7 +15,7 @@ export const AuthContext = ({ children }) => {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
+      // console.log(event, session);
       checkForUser();
       // console.log(event, session);
 
@@ -43,10 +43,11 @@ export const AuthContext = ({ children }) => {
     };
   }, []);
 
-  updateSettings = async (newSettingsValue) => {
+  updateSettings = async () => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase.auth.updateUser(newSettingsValue);
+      await sleep(2000);
+      const { data, error } = await supabase.auth.updateUser(userSettings);
       if (error) {
         Alert.alert("Update settings failed", "", [
           {
@@ -55,7 +56,6 @@ export const AuthContext = ({ children }) => {
         ]);
         throw e;
       }
-      console.log("Data is ", data);
     } catch (e) {
       console.log(e);
     } finally {
@@ -63,12 +63,15 @@ export const AuthContext = ({ children }) => {
     }
   };
 
+  sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
   return (
     <Authorization.Provider
       value={{
         userSession,
         updateSettings,
         isLoading,
+        setUserSettings,
       }}
     >
       {children}
