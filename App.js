@@ -4,7 +4,7 @@ import HomeScreen from "./src/screens/home";
 // const Stack = createNativeStackNavigator();
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { RecoilRoot } from "recoil";
 import { TouchableOpacity, View, Text } from "react-native";
 import Login from "./src/screens/login";
 import Signup from "./src/screens/signup";
@@ -108,9 +108,11 @@ const MainApp = () => {
 
 const App = () => {
   return (
-    <AuthContext>
-      <MainApp />
-    </AuthContext>
+    <RecoilRoot>
+      <AuthContext>
+        <MainApp />
+      </AuthContext>
+    </RecoilRoot>
   );
 };
 

@@ -14,16 +14,32 @@ import {
   Button as RNPButton,
   TextInput,
 } from "react-native-paper";
+import { useRecoilState, useRecoilValue } from "recoil";
 import supabase from "../auth/supabase";
 import { Authorization } from "../context/context";
+import {
+  displayNameState,
+  emailState,
+  passwordState,
+} from "../recoil/settings";
 
 const Settings = () => {
-  const [email, setEmail] = useState("");
+  const userEmail = useRecoilValue(emailState);
+  const [email, setEmail] = useState(userEmail);
+
+  const userDisplayName = useRecoilValue(displayNameState);
+  const [displayName, setDisplayName] = useState(userDisplayName);
+
+  const userPasswordPlainText = useRecoilValue(passwordState);
+  const [password, setPassword] = useState(userPasswordPlainText);
+
   const { userSession, isLoading, setUserSettings } = useContext(Authorization);
 
   useEffect(() => {
     return () => {
-      setUserSettings();
+      setEmail(userEmail);
+      setDisplayName(userDisplayName);
+      setPassword(userPasswordPlainText);
     };
   }, []);
 
@@ -65,8 +81,8 @@ const Settings = () => {
               <TextInput
                 label="Name"
                 style={styles.textInput}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={displayName}
+                onChangeText={(text) => setDisplayName(text)}
               />
               <View style={{ margin: 4 }}></View>
               <TextInput
@@ -80,8 +96,8 @@ const Settings = () => {
                 secureTextEntry={true}
                 label="Password"
                 style={styles.textInput}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
               />
             </View>
 

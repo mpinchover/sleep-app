@@ -23,12 +23,30 @@ const Signup = ({ navigation }) => {
     Inter_200ExtraLight,
   });
 
+  /*
+  const { data, error } = await supabase.auth.signUp({
+  email: 'example@email.com',
+  password: 'example-password',
+  options: {
+    data: {
+      first_name: 'John',
+      age: 27
+    }
+  }
+})
+   */
   const signUpUser = async () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase.auth.signUp({
         email: "example@email.com",
         password: "example-password",
+        options: {
+          data: {
+            display_name: "John",
+            password_length: "example-password".length,
+          },
+        },
       });
       if (error) {
         throw error;

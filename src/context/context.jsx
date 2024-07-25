@@ -1,16 +1,48 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../auth/supabase";
 import { Alert } from "react-native";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+import {
+  displayNameState,
+  emailState,
+  passwordState,
+} from "../recoil/settings";
+import randomstring from "randomstring";
+
 export const Authorization = React.createContext();
 
 export const AuthContext = ({ children }) => {
   const [userSession, setUserSession] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [userSettings, setUserSettings] = useState();
+
+  const [userEmail, setUserEmail] = useRecoilState(emailState);
+  const [userDisplayName, setUserDisplayName] =
+    useRecoilState(displayNameState);
+
+  const [userPassword, setUserPassword] = useRecoilState(passwordState);
+
   checkForUser = async () => {
     const { data, error } = await supabase.auth.getSession();
-    // console.log("DATA IS ", data.session);
     setUserSession(data.session);
+
+    if (data.session) {
+      console.log("user", data.session.user.user_metadata);
+      setUserEmail(data.session.user.user_metadata.email);
+      setUserDisplayName(data.session.user.user_metadata.display_name);
+
+      const randomPassword = randomstring.generate({
+        length: data.session.user.user_metadata.password_length,
+        charset: "alphanumeric",
+      });
+      setUserPassword(randomPassword);
+    }
   };
 
   useEffect(() => {
@@ -47,7 +79,12 @@ export const AuthContext = ({ children }) => {
     try {
       setIsLoading(true);
       await sleep(2000);
-      const { data, error } = await supabase.auth.updateUser(userSettings);
+      const { data, error } = await supabase.auth.updateUser({
+        email: userEmail,
+        data: {
+          display_name: userDisplayName,
+        },
+      });
       if (error) {
         Alert.alert("Update settings failed", "", [
           {
